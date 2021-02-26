@@ -1,0 +1,284 @@
+:root {
+  --primaryColor:#0F7D81;
+  --backgroundColor: #FFF;
+  --foregroundColor: #EFEFEF;
+  --textColor: #000;
+  --subTextColor: #444444
+
+}
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--primaryColor);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+  }
+
+.container {
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.tabs {
+  width: 100%;
+  background-color: var(--backgroundColor);
+  display: inline-flex;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding: 5px;
+  padding-bottom: 4px;
+  justify-content: space-evenly;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.tabs .tab:hover {
+  color: var(--primaryColor);
+}
+
+
+.tab .updated {
+  font-weight: 500;
+  font-size: 10px;
+  opacity: 50%;
+  /* padding: 2px; */
+  margin-left: 5px;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.tabs .tab {
+  font-weight: 500;
+  width: 100%;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabs .active {
+  border-bottom: 4px solid var(--primaryColor);
+}
+
+#builds {
+  background-color: var(--backgroundColor);
+  padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 100%;
+  margin: 7px;
+  margin-top: 0px;
+  border-top: 1px solid rgba(100, 100, 100, 0.2);
+  margin-bottom: 50px;
+}
+
+
+.build {
+    overflow: hidden;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#los-logo {
+  width: 150px;
+  margin-right: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  #los-logo {
+    width: 120px;
+    margin-right: 7px;
+  }
+
+  .header {
+    padding: 0px
+  }
+  
+}
+
+#los-logo rect {
+  fill: var(--primaryColor);
+}
+
+#los-logo g {
+  stroke: var(--backgroundColor);
+}
+
+
+.subtitle {
+  font-weight: normal;
+}
+
+.build .build-header .name {
+  user-select: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.build .build-header svg {
+    padding-left: 0px !important;
+    transition: transform 0.2s ease-in-out;
+}
+
+.build .build-header:hover {
+  color: var(--primaryColor);
+}
+
+.build .build-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.build .build-header img {
+  height: 20px;
+  padding-left: 20px;
+}
+
+.expandable {
+  background-color: var(--foregroundColor);
+  padding: 10px;
+  border-radius: 5px;
+  max-height: 0px;
+  padding: 0px;
+  transition: padding 0.3s, max-height 0.3s cubic-bezier(0, 1, 1, 1.5);
+}
+
+.changelog {
+  white-space: pre-line;
+}
+
+.changelog span {
+  font-family: 'Roboto Condensed', sans-serif;
+  color: var(--subTextColor);
+}
+
+.tag,
+.downloads,
+.size,
+.changelog,
+.date {
+  font-weight: 500;
+}
+
+span {
+  font-weight: normal;
+}
+
+.btn {
+  border: none;
+  background-color: var(--primaryColor);
+  height: 35px;
+  border-radius: 3px;
+  color: var(--backgroundColor);
+  font-weight: 500;
+  padding: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.downloadbtn {
+  width: 100%;
+}
+
+.primary {
+  background-color: var(--primaryColor);
+}
+
+.blue {
+  background-color: #0070ba;
+}
+
+.download {
+  display: flex;
+  margin-top: 30px;
+}
+
+.download select {
+  border: none;
+  background-color: var(--primaryColor);
+  border-radius: 3px;
+  padding-left: 4px;
+  height: 35px;
+  color: var(--backgroundColor);
+  font-weight: 600;
+}
+
+.downloadbtn:hover, .download select:hover {
+  opacity: 80%;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#build-mocked {
+  display: none;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  padding-bottom: 10px;
+}
+
+.credits {
+    text-align: center;
+    color: var(--backgroundColor);
+}
+.credits a {
+    font-weight: 500;
+    color: var(--foregroundColor);
+    text-decoration: none;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: var(--backgroundColor);
+}
+.title h5, .title h2 {
+    margin: 0px;
+    font-weight: 500;
+}
+
+.support {
+  color: var(--backgroundColor);
+  height: 90px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.support span {
+  font-weight: 500;
+}
