@@ -3,26 +3,26 @@ const buildMock = document.getElementById("build-mocked");
 
 const state = {
   builds: [],
-  target: "3.18"
+  target: CONFIG_DATA.tabs.find((tab) => tab.default).id
 }
 
 const processText = (text) => {
   let lines = text.split("\n");
 
   // break first line if needed;
-  if(lines[0].trim() !== ""){
+  if (lines[0].trim() !== "") {
     lines = [" ", ...lines];
   }
 
 
   lines = lines.map((line, index) => {
     // remove paypal html button, we cant render it
-    if(line.includes("paypal")){
+    if (line.includes("paypal")) {
       return;
     }
 
     // remove lasts empty line
-    if(lines[index].trim() ===  "" && index != 0){
+    if (lines[index].trim() === "" && index != 0) {
       return;
     }
 
@@ -30,7 +30,7 @@ const processText = (text) => {
   }).filter((line) => line !== undefined);
 
   return lines.join("\n");
-} 
+}
 
 const expand = (Element) => {
   const expandable = Element.parentNode.children[1];
@@ -55,22 +55,22 @@ const fetchJSON = async (url) => {
   return res.json();
 };
 
-fetchJSON("https://api.opengapps.org/list").then((res) => {
-  const select = buildMock.getElementsByClassName("gapps")[0];
+// fetchJSON("https://api.opengapps.org/list").then((res) => {
+//   const select = buildMock.getElementsByClassName("gapps")[0];
 
-  const variants = res.archs.arm64.apis["10.0"].variants;
+//   const variants = res.archs.arm64.apis["10.0"].variants;
 
-  variants.forEach((variant) => {
-    let option = document.createElement("option");
-    option.text = `OpenGapps ${variant.name}`;
-    option.value = variant.zip;
-    select.appendChild(option);
-  });
+//   variants.forEach((variant) => {
+//     let option = document.createElement("option");
+//     option.text = `OpenGapps ${variant.name}`;
+//     option.value = variant.zip;
+//     select.appendChild(option);
+//   });
 
-  if(state.builds.length){
-    drawList(state);
-  }
-});
+//   if(state.builds.length){
+//     drawList(state);
+//   }
+// });
 
 const downloadUtils = {
   generateDownloadLink: (base) =>
@@ -81,11 +81,10 @@ const downloadUtils = {
   },
 };
 
-const calcNewestDays = (dateString) => {
-  const buildDate = new Date(dateString);
+const calcNewestDays = (buildDate) => {
   const today = new Date();
   const diff = today.getTime() - buildDate.getTime();
-  return Math.round(diff / (1000 * 3600 * 24)); 
+  return Math.round(diff / (1000 * 3600 * 24));
 }
 
 const formatters = {
@@ -96,9 +95,8 @@ const formatters = {
     const m = date.getMonth() + 1; //Month from 0 to 11
     const y = date.getFullYear();
 
-    return `${date.getFullYear()}/${m <= 9 ? "0" + m : m}/${
-      d <= 9 ? "0" + d : d
-    }`;
+    return `${date.getFullYear()}/${m <= 9 ? "0" + m : m}/${d <= 9 ? "0" + d : d
+      }`;
   },
   size: (bytes) => {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -108,44 +106,45 @@ const formatters = {
   },
 };
 
-fetchJSON("https://api.github.com/repos/zeelog/OTA/releases").then((res) => {
-  state.builds = res;
-  drawList(state)
+// fetchJSON("https://api.github.com/repos/zeelog/OTA/releases").then((res) => {
+//   state.builds = res;
+//   drawList(state)
 
-  const getLast = (target) => res.filter(build => build.assets[0].name.includes(target))[0];
+//   const getLast = (target) => res.filter(build => build.assets[0].name.includes(target))[0];
 
-  const tabs = Array.from(document.getElementsByClassName("tab"));
+//   const tabs = Array.from(document.getElementsByClassName("tab"));
 
-  tabs.forEach((tab) => {
+//   tabs.forEach((tab) => {
 
-    const latest = getLast(tab.dataset.target);
-    const daysSince = calcNewestDays(latest.assets[0].created_at)
+//     const latest = getLast(tab.dataset.target);
+//     const daysSince = calcNewestDays(latest.assets[0].created_at)
 
-    if(!isNaN(daysSince)){
-      let text = "";
+//     if(!isNaN(daysSince)){
+//       let text = "";
 
-      if(daysSince === 0){
-        text = "Today" 
-      } else {
-        text = `${daysSince} ${daysSince > 1 ? "days" : "day"} ago`
-      }
+//       if(daysSince === 0){
+//         text = "Today" 
+//       } else {
+//         text = `${daysSince} ${daysSince > 1 ? "days" : "day"} ago`
+//       }
 
-      tab.children.innerText = `${daysSince}`
-      const span = document.createElement("span");
-      span.classList.add("updated");
-      span.innerHTML = text;
+//       tab.children.innerText = `${daysSince}`
+//       const span = document.createElement("span");
+//       span.classList.add("updated");
+//       span.innerHTML = text;
 
-      tab.appendChild(span)
-    }
+//       tab.appendChild(span)
+//     }
 
-    tab.addEventListener("click", function(){
-      tabs.forEach(tab => tab.classList.remove("active"));
-      state.target = this.dataset.target;
-      drawList(state);
-      this.classList.add("active")
-    });
-  })
-});
+//     tab.addEventListener("click", function(){
+//       tabs.forEach(tab => tab.classList.remove("active"));
+//       state.target = this.dataset.target;
+//       drawList(state);
+//       this.classList.add("active")
+//     });
+//   })
+// });
+
 
 const backgroundDownloader = (url) => {
   const frame = document.createElement("frame");
@@ -195,38 +194,32 @@ const buildFactory = (baseElement) => {
   }
 }
 
-const drawList = ({builds, target}) => {
+const drawList = ({ builds, target }) => {
 
   buildsNode.innerHTML = "";
 
-  builds = builds.filter((build) => {
-    return build.assets[0].name.includes(target)
-  });
+  const filteredBuilds = builds.filter((build) => build.tab == target)
 
-  builds.forEach((buildData, index) => {
-
-    const { name, size, download_count: downloads, 
-      created_at: date, browser_download_url: url } = buildData.assets[0];
-    const { tag_name: tag, body: changelog } = buildData;
+  filteredBuilds.forEach((buildData, index) => {
 
     const build = buildFactory(buildMock);
 
     build.nodes.button.addEventListener("click", function () {
       const gapps = build.nodes.option.value;
 
-      if (url) backgroundDownloader(url)
+      if (buildData.download) backgroundDownloader(buildData.download)
       if (gapps) backgroundDownloader(downloadUtils.generateDownloadLink(gapps))
 
     });
-    
-    const reversedIndex = builds.length - index;
 
-    build.set.name(name);
+    const reversedIndex = filteredBuilds.length - index;
+
+    build.set.name(buildData.filename);
     build.set.tag(`#${reversedIndex}`);
-    build.set.size(formatters.size(size));
-    build.set.downloads(downloads);
-    build.set.date(formatters.date(date));
-    build.set.changelog(changelog);
+    build.set.size(buildData.size);
+    build.set.downloads("0");
+    build.set.date(formatters.date(buildData.date));
+    build.set.changelog(buildData.changelog);
 
     if (index === 0) {
       build.elements.container.style.maxHeight = "500px";
@@ -238,3 +231,50 @@ const drawList = ({builds, target}) => {
     buildsNode.appendChild(build.Element);
   });
 };
+
+const loadBuilds = () => {
+  state.builds = BUILDS_DB;
+
+  drawList(state);
+
+  const getLast = (target) => state.builds.filter(build => build.tab == target)[0];
+
+  const tabs = Array.from(document.getElementsByClassName("tab"));
+
+  tabs.forEach((tab) => {
+
+    const latest = getLast(tab.dataset.target);
+    const daysSince = calcNewestDays(latest.date)
+
+    if (!isNaN(daysSince)) {
+      let text = "";
+
+      if (daysSince === 0) {
+        text = "Today"
+      } else {
+        text = `${daysSince} ${daysSince > 1 ? "days" : "day"} ago`
+      }
+
+      tab.children.innerText = `${daysSince}`
+      const span = document.createElement("span");
+      span.classList.add("updated");
+      span.innerHTML = text;
+
+      tab.appendChild(span)
+    }
+
+    tab.addEventListener("click", function () {
+      tabs.forEach(tab => tab.classList.remove("active"));
+      state.target = this.dataset.target;
+      drawList(state);
+      this.classList.add("active")
+    });
+  })
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadBuilds();
+});
+
+
+

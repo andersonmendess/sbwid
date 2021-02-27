@@ -145,6 +145,11 @@ body::-webkit-scrollbar {
     transition: transform 0.2s ease-in-out;
 }
 
+.build .build-header img {
+  padding-left: 0px !important;
+  transition: transform 0.2s ease-in-out;
+}
+
 .build .build-header:hover {
   color: var(--primaryColor);
 }
