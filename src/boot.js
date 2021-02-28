@@ -39,9 +39,11 @@ const boot = () => {
             imgEl.setAttribute("src", CONFIG_BASE.image);
             imgEl.setAttribute("id", "los-logo");
 
-            imgEl.style.marginBottom = "15px";
-            imgEl.style.maxHeight = "200px";
-            imgEl.style.maxWidth = "200px";
+            imgEl.style.marginBottom = "20px";
+            imgEl.style.marginTop = "20px";
+
+            imgEl.style.maxHeight = "100px";
+            imgEl.style.maxWidth = "100px";
 
             if(CONFIG_UI.picture_rounded) {
                 imgEl.style.borderRadius = "100px";

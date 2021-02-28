@@ -1,12 +1,12 @@
 const CONFIG_BASE = {
-  title: "KrakenOS",
-  subtitle: "Kraken builds For Redmi Note 4/4X by Andersu",
+  title: "ArrowOS",
+  subtitle: "ArrowOS builds For Galaxy S22 Plus",
   owner: "anderson",
-  image: "https://avatars.githubusercontent.com/u/49829986?s=200&v=4"
+  image: "https://avatars.githubusercontent.com/u/40351870?s=200&v=4"
 };
 
 const CONFIG_UI = {
-  primary_color: "#14CB9A",
+  primary_color: "#64B5F6",
   picture_rounded: true,
 }
 
@@ -20,13 +20,13 @@ const CONFIG_DATA = {
   },
   tabs: [
     {
-      id: "10",
-      title: "Android 10",
+      id: "vanilla",
+      title: "VANILLA",
       default: true,
     },
     {
-      id: "11",
-      title: "Android 11",
+      id: "gapps",
+      title: "GAPPS",
       default: false,
     },
   ]
