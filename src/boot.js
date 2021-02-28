@@ -16,6 +16,11 @@ const boot = () => {
         gapps_options: document.querySelector("#builds > div:nth-child(1) > div.expandable > div.download > select"),
     }
 
+    // SEO
+    document.title = CONFIG_BASE.title
+    document.querySelector("head > meta:nth-child(5)").setAttribute("content", CONFIG_BASE.subtitle);
+    document.querySelector("head > link:nth-child(6)").setAttribute("href", CONFIG_BASE.image)
+
     const setupHeader = () => {
         const { title, subtitle, owner, donate, donate_title , donate_button, image } = elements;
 
@@ -54,8 +59,11 @@ const boot = () => {
     };
 
     const setupBody = () => {
-        document.getElementsByTagName("body")[0]
-            .style.setProperty("--primaryColor", CONFIG_UI.primary_color)
+        // set app color
+        document.querySelector("head > meta:nth-child(7)").setAttribute("content", CONFIG_UI.primary_color);
+        document.querySelector("head > meta:nth-child(8)").setAttribute("content", CONFIG_UI.primary_color);
+        // set css var
+        document.getElementsByTagName("body")[0].style.setProperty("--primaryColor", CONFIG_UI.primary_color)
     };
 
     const setupBuilds = () => {
